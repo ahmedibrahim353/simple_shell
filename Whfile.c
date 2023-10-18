@@ -17,11 +17,11 @@ int _whichFile(char *filename[])
 	{
 		if (stat(filename[i], &st) == 0)
 		{
-			printf(" _which: FOUND\n");
+			/*printf(" _which: FOUND\n");*/
 		}
 		else
 		{
-			printf("_which:  NOT FOUND\n");
+			/*printf("_which:  NOT FOUND\n");*/
 		}
 
 		i++;

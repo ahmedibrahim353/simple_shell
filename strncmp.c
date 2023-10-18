@@ -10,13 +10,13 @@
 
 int _strncmp(char *s1, char *s2, int len)
 {
-	int count = 0;
+	int counter = 0;
 
-	while ((*s1 != '\0' && *s1 == *s2) || (count < len))
+	while ((*s1 != '\0' && *s1 == *s2) || (counter < len))
 	{
 		s1++;
 		s2++;
-		count++;
+		counter++;
 	}
 
 	return (*s1 - *s2);

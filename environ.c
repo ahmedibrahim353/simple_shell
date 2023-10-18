@@ -10,11 +10,11 @@
 int _environ(void)
 {
 	char **env = environ;
-	int fd = 1, len;
+	int fd = 1;
 
 	while (*env != NULL)
 	{
-		len = _strlen(*env);
+		size_t len = _strlen(*env);
 
 		write(fd, *env, len);
 		write(fd, "\n", 1);

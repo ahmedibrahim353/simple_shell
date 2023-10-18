@@ -11,7 +11,5 @@ int _ppid(void)
 
 	parent_pid = getppid();
 
-	printf("_PPID: parent PID  : %d\n", parent_pid);
-
 	return (parent_pid);
 }

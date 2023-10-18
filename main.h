@@ -16,6 +16,9 @@ extern char **environ;
 
 char **_stringTok(char *string, char *delim);
 void _strcpy(char *source, char *destination);
+char * _strdup(char *source);
+char *_get_path(char *command);
+void _execute_command(char * command);
 int _fork(char **array_Of_Words, char **argv);
 int _exec(char **array_Of_Words, char **argv);
 int _wait(int status);
@@ -32,5 +35,6 @@ int _strcmp(char *s1, char *s2);
 int _strlen(char *s);
 int _strncmp(char *s1, char *s2, int len);
 int isEnv(char *input);
-
+int _write_newLine(char *string);
+int _write(char *string);
 #endif

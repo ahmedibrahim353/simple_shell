@@ -10,7 +10,10 @@
 
 void _path(char *name, char *delim)
 {
-	char *token = strtok(name, delim);
+	char *path_cp, *token;
+	
+	path_cp = _strdup(name);
+	token = strtok(path_cp, delim);
 
 	while (token != NULL)
 	{

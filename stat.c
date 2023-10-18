@@ -8,10 +8,10 @@
 
 int _stat(const char *path)
 {
-	struct status st;
+	struct stat st;
 
 
-	if (status(path, &st) == 0)
+	if (stat(path, &st) == 0)
 	{
 		return (0);
 	}

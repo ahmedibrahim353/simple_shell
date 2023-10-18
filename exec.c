@@ -9,7 +9,12 @@
 
 int _exec(char **array_Of_Words, char **argv)
 {
-	if (execve(array_Of_Words[0], array_Of_Words, NULL) == -1)
+	char *full_Command = NULL;
+	printf("command: %s\n", array_Of_Words[0]);
+	full_Command = _get_path(array_Of_Words[0]);
+		printf("f_command: %s\n", full_Command);
+
+	if (execve(full_Command, array_Of_Words, NULL) == -1)
 	{
 		switch (errno)
 		{
