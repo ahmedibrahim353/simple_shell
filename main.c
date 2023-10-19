@@ -12,40 +12,29 @@ int main(int argc __attribute__((unused)), char *argv[])
 	char **array_Of_Words = NULL, *line = NULL, *delim = " \n\t";
 	size_t len = 0;
 	ssize_t nread;
-	int file_stat;
 
 	if (isatty(STDIN_FILENO))
 	{
-		_write("$ ");
+		_puts("$ ");
 		while ((nread = getline(&line, &len, stdin)) != -1)
 		{
 			if (nread != 1)
 			{
 				array_Of_Words = _stringTok(line, delim);
-				exit_program(array_Of_Words[0]);
-				if (isEnv(array_Of_Words[0]))
-				{
-					printf("$ ");
-					continue;
-				}
-				file_stat = _stat(array_Of_Words[0]);
-				file_stat == 0 ? _fork(array_Of_Words, argv) :
-				printf("%s:command not found\n", argv[0]);	}
-			printf("$ ");	}	}
+				_execute_command(array_Of_Words, argv);
+			}
+			_puts("$ ");
+		}
+	}
 	else
 	{
 		while (getline(&line, &len, stdin) != -1)
 		{
 			array_Of_Words = _stringTok(line, delim);
-			exit_program(array_Of_Words[0]);
-			if (isEnv(array_Of_Words[0]))
-			{
-				printf("$ ");
-				continue;
-			}
-			file_stat = _stat(array_Of_Words[0]);
-			file_stat == 0 ? _fork(array_Of_Words, argv) :
-			printf("%s:command not found\n", argv[0]);	}}
+			_execute_command(array_Of_Words, argv);
+		}
+	}
 	free(line);
 	free(array_Of_Words);
-	exit(EXIT_SUCCESS);	}
+	return (0);
+}
