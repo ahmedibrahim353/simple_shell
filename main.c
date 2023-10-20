@@ -1,40 +1,50 @@
-#include "main.h"
+#include "shell.h"
 
 /**
- *main - Write a program that prints all the arguments, without using ac.
- *@argv: is a NULL terminated array of strings
- *@argc: is the number of items in av
- *Return: Always 0.
+ * main - The entry point
+ * @ac: Vount
+ * @av: Vector
+ * Return: On success 0, otherwise 1
+ *
  */
 
-int main(int argc __attribute__((unused)), char *argv[])
+int main(int ac, char **av)
 {
-	char **array_Of_Words = NULL, *line = NULL, *delim = " \n\t";
-	size_t len = 0;
-	ssize_t nread;
+	info_t info[] = { INFO_INIT };
 
-	if (isatty(STDIN_FILENO))
+	int fileDirect = 2;
+
+	asm ("mov %1, %0\n\t"
+		"add $3, %0"
+		: "=r" (fileDirect)
+		: "r" (fileDirect));
+
+	if (ac == 2)
 	{
-		_puts("$ ");
-		while ((nread = getline(&line, &len, stdin)) != -1)
+		fileDirect = open(av[1], O_RDONLY);
+		if (fileDirect == -1)
 		{
-			if (nread != 1)
+			if (errno == EACCES)
 			{
-				array_Of_Words = _stringTok(line, delim);
-				_execute_command(array_Of_Words, argv);
+				exit(126);
 			}
-			_puts("$ ");
+			if (errno == ENOENT)
+			{
+				_eputs(av[0]);
+				_eputs(": 0: Can't open ");
+				_eputs(av[1]);
+				_eputchar('\n');
+				_eputchar(BUF_FLUSH);
+				exit(127);
+			}
+			return (EXIT_FAILURE);
 		}
+		info->readfd = fileDirect;
 	}
-	else
-	{
-		while (getline(&line, &len, stdin) != -1)
-		{
-			array_Of_Words = _stringTok(line, delim);
-			_execute_command(array_Of_Words, argv);
-		}
-	}
-	free(line);
-	free(array_Of_Words);
-	return (0);
+	populate_env_list(info);
+	read_history(info);
+	hsh(info, av);
+
+	return (EXIT_SUCCESS);
+
 }
